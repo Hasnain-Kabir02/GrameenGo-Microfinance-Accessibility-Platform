@@ -33,6 +33,10 @@ export const AuthProvider = ({ children }) => {
         { email, password },
         { withCredentials: true }
       );
+      // Store token in localStorage for API requests
+      if (response.data.token) {
+        localStorage.setItem('token', response.data.token);
+      }
       setUser(response.data);
       return response.data;
     } catch (error) {
