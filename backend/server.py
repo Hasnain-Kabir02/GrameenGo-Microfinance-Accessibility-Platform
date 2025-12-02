@@ -60,8 +60,8 @@ async def health():
 
 # ========== AUTH ROUTES ==========
 
-@api_router.post("/auth/register", response_model=UserResponse)
-async def register(user_data: UserCreate):
+@api_router.post("/auth/register")
+async def register(user_data: UserCreate, response: Response):
     # Check if user exists
     existing_user = await db.users.find_one({"email": user_data.email})
     if existing_user:
@@ -81,6 +81,16 @@ async def register(user_data: UserCreate):
     
     # Create JWT token
     token = create_access_token({"user_id": user_id})
+    
+    # Set cookie
+    response.set_cookie(
+        key="auth_token",
+        value=token,
+        httponly=True,
+        secure=True,
+        samesite="none",
+        max_age=7*24*60*60
+    )
     
     return {
         "id": user_id,
