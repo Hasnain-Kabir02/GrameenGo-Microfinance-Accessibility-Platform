@@ -65,9 +65,12 @@ export const AuthProvider = ({ children }) => {
         {},
         { withCredentials: true }
       );
+      localStorage.removeItem('token');
       setUser(null);
     } catch (error) {
       console.error('Logout error:', error);
+      localStorage.removeItem('token');
+      setUser(null);
     }
   };
 
