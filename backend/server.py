@@ -48,6 +48,16 @@ async def get_auth_user(request: Request, authorization: Optional[str] = Header(
         raise HTTPException(status_code=401, detail="Not authenticated")
     return user
 
+# ========== HEALTH CHECK ==========
+
+@api_router.get("/")
+async def health_check():
+    return {"status": "ok", "message": "GrameenGo API is running"}
+
+@api_router.get("/health")
+async def health():
+    return {"status": "healthy"}
+
 # ========== AUTH ROUTES ==========
 
 @api_router.post("/auth/register", response_model=UserResponse)
