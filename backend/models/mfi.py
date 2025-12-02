@@ -1,4 +1,4 @@
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 from typing import Optional, List
 from datetime import datetime, timezone
 
@@ -33,5 +33,3 @@ class LoanProduct(BaseModel):
     tenure_months: List[int] = []  # Available loan periods
     eligibility_criteria: List[str] = []
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
-
-from pydantic import Field
