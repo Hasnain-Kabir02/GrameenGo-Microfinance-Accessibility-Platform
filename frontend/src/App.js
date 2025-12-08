@@ -14,6 +14,7 @@ import MFIDetail from './pages/MFIDetail';
 import LoanApplicationForm from './pages/LoanApplicationForm';
 import Applications from './pages/Applications';
 import ApplicationDetail from './pages/ApplicationDetail';
+import Analytics from './pages/Analytics';
 
 // Components
 import Layout from './components/Layout';
