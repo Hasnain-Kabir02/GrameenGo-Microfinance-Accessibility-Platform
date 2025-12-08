@@ -13,6 +13,7 @@ import MFIDirectory from './pages/MFIDirectory';
 import MFIDetail from './pages/MFIDetail';
 import LoanApplicationForm from './pages/LoanApplicationForm';
 import Applications from './pages/Applications';
+import ApplicationDetail from './pages/ApplicationDetail';
 
 // Components
 import Layout from './components/Layout';
