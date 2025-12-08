@@ -42,6 +42,50 @@ const ApplicationDetail = () => {
     }
   };
 
+  const handleApprove = async () => {
+    if (!officerNotes.trim()) {
+      toast.error('Please add officer notes before approving');
+      return;
+    }
+    
+    setActionLoading(true);
+    try {
+      await applicationAPI.update(appId, {
+        status: 'approved',
+        officer_notes: officerNotes
+      });
+      toast.success('Application approved successfully!');
+      fetchApplicationDetails();
+    } catch (error) {
+      toast.error('Failed to approve application');
+    } finally {
+      setActionLoading(false);
+    }
+  };
+
+  const handleReject = async () => {
+    if (!rejectionReason.trim()) {
+      toast.error('Please provide a rejection reason');
+      return;
+    }
+    
+    setActionLoading(true);
+    try {
+      await applicationAPI.update(appId, {
+        status: 'rejected',
+        rejection_reason: rejectionReason,
+        officer_notes: officerNotes || 'Application rejected'
+      });
+      toast.success('Application rejected');
+      setShowRejectDialog(false);
+      fetchApplicationDetails();
+    } catch (error) {
+      toast.error('Failed to reject application');
+    } finally {
+      setActionLoading(false);
+    }
+  };
+
   const getStatusConfig = (status) => {
     const configs = {
       submitted: {
