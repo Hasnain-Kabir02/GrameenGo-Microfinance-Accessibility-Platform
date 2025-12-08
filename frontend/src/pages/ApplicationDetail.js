@@ -17,6 +17,10 @@ const ApplicationDetail = () => {
   const [application, setApplication] = useState(null);
   const [mfi, setMfi] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [actionLoading, setActionLoading] = useState(false);
+  const [showRejectDialog, setShowRejectDialog] = useState(false);
+  const [rejectionReason, setRejectionReason] = useState('');
+  const [officerNotes, setOfficerNotes] = useState('');
 
   useEffect(() => {
     fetchApplicationDetails();
