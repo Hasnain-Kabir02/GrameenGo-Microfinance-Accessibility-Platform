@@ -10,6 +10,8 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import MFIDirectory from './pages/MFIDirectory';
+import MFIDetail from './pages/MFIDetail';
+import LoanApplicationForm from './pages/LoanApplicationForm';
 import Applications from './pages/Applications';
 
 // Components
