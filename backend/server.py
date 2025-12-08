@@ -277,7 +277,9 @@ async def create_application(app_data: ApplicationCreate, user: dict = Depends(g
         "created_at": datetime.now(timezone.utc).isoformat(),
         "updated_at": datetime.now(timezone.utc).isoformat()
     })
-    await db.applications.insert_one(app_dict)
+    
+    # Insert into database
+    result = await db.applications.insert_one(app_dict)
     
     # Create notification
     notif_id = str(uuid.uuid4())
@@ -293,7 +295,9 @@ async def create_application(app_data: ApplicationCreate, user: dict = Depends(g
     }
     await db.notifications.insert_one(notif)
     
-    return app_dict
+    # Return the application without MongoDB _id
+    response_dict = app_dict.copy()
+    return response_dict
 
 @api_router.patch("/applications/{app_id}")
 async def update_application(app_id: str, update_data: ApplicationUpdate, user: dict = Depends(get_auth_user)):
