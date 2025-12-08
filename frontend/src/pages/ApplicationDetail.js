@@ -308,6 +308,97 @@ const ApplicationDetail = () => {
         </CardContent>
       </Card>
 
+      {/* Officer Actions - Only show for officers/admins on submitted/under_review applications */}
+      {(user?.role === 'officer' || user?.role === 'admin') && 
+       (application.status === 'submitted' || application.status === 'under_review') && (
+        <Card className="border-2 border-blue-100 bg-blue-50">
+          <CardHeader>
+            <CardTitle className="flex items-center space-x-2">
+              <User className="w-5 h-5 text-blue-600" />
+              <span>Officer Actions</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="officer-notes">Officer Notes (Required for Approval)</Label>
+              <Textarea
+                id="officer-notes"
+                placeholder="Add your notes about this application..."
+                value={officerNotes}
+                onChange={(e) => setOfficerNotes(e.target.value)}
+                data-testid="officer-notes-input"
+                rows={4}
+                className="border-blue-200 focus:border-blue-500"
+              />
+            </div>
+            <div className="flex items-center space-x-4">
+              <Button
+                onClick={handleApprove}
+                disabled={actionLoading || !officerNotes.trim()}
+                data-testid="approve-btn"
+                className="bg-green-600 hover:bg-green-700 text-white flex-1"
+              >
+                <ThumbsUp className="w-4 h-4 mr-2" />
+                {actionLoading ? 'Processing...' : 'Approve Application'}
+              </Button>
+              <Button
+                onClick={() => setShowRejectDialog(true)}
+                disabled={actionLoading}
+                data-testid="reject-btn"
+                variant="destructive"
+                className="flex-1"
+              >
+                <ThumbsDown className="w-4 h-4 mr-2" />
+                Reject Application
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Reject Dialog */}
+      <Dialog open={showRejectDialog} onOpenChange={setShowRejectDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Reject Application</DialogTitle>
+            <DialogDescription>
+              Please provide a reason for rejecting this application. This will be shared with the applicant.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="rejection-reason">Rejection Reason *</Label>
+              <Textarea
+                id="rejection-reason"
+                placeholder="Explain why this application is being rejected..."
+                value={rejectionReason}
+                onChange={(e) => setRejectionReason(e.target.value)}
+                data-testid="rejection-reason-input"
+                rows={4}
+                className="border-red-200 focus:border-red-500"
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setShowRejectDialog(false)}
+              disabled={actionLoading}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={handleReject}
+              disabled={actionLoading || !rejectionReason.trim()}
+              data-testid="confirm-reject-btn"
+            >
+              {actionLoading ? 'Rejecting...' : 'Confirm Rejection'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       {/* Timeline */}
       <Card className="border-2 border-green-100">
         <CardHeader>
