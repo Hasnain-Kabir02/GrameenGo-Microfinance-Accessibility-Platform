@@ -95,6 +95,8 @@ function AppContent() {
         >
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="mfis" element={<MFIDirectory />} />
+          <Route path="mfis/:mfiId" element={<MFIDetail />} />
+          <Route path="apply/:mfiId" element={<LoanApplicationForm />} />
           <Route path="applications" element={<Applications />} />
         </Route>
 
