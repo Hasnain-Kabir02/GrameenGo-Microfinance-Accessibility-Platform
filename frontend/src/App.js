@@ -99,6 +99,7 @@ function AppContent() {
           <Route path="mfis/:mfiId" element={<MFIDetail />} />
           <Route path="apply/:mfiId" element={<LoanApplicationForm />} />
           <Route path="applications" element={<Applications />} />
+          <Route path="applications/:appId" element={<ApplicationDetail />} />
         </Route>
 
         {/* Fallback */}
