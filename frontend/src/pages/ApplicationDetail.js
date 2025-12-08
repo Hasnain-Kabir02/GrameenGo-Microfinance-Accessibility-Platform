@@ -5,7 +5,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card'
 import { Button } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
 import { Separator } from '../components/ui/separator';
-import { ArrowLeft, Building2, Calendar, DollarSign, FileText, User, Download, Clock, CheckCircle2, XCircle } from 'lucide-react';
+import { Textarea } from '../components/ui/textarea';
+import { Label } from '../components/ui/label';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '../components/ui/dialog';
+import { ArrowLeft, Building2, Calendar, DollarSign, FileText, User, Download, Clock, CheckCircle2, XCircle, ThumbsUp, ThumbsDown } from 'lucide-react';
 import { applicationAPI, mfiAPI } from '../utils/api';
 import { toast } from 'sonner';
 import { exportApplicationToPDF } from '../utils/pdfExport';
