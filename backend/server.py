@@ -268,18 +268,27 @@ async def get_application(app_id: str, user: dict = Depends(get_auth_user)):
 @api_router.post("/applications")
 async def create_application(app_data: ApplicationCreate, user: dict = Depends(get_auth_user)):
     app_id = str(uuid.uuid4())
-    app_dict = app_data.model_dump()
-    app_dict.update({
+    current_time = datetime.now(timezone.utc).isoformat()
+    
+    app_dict = {
         "id": app_id,
         "user_id": user['id'],
+        "mfi_id": app_data.mfi_id,
+        "business_name": app_data.business_name,
+        "business_type": app_data.business_type,
+        "business_age_years": app_data.business_age_years,
+        "monthly_revenue": app_data.monthly_revenue,
+        "loan_amount": app_data.loan_amount,
+        "loan_purpose": app_data.loan_purpose,
+        "tenure_months": app_data.tenure_months,
         "status": "submitted",
         "documents": [],
-        "created_at": datetime.now(timezone.utc).isoformat(),
-        "updated_at": datetime.now(timezone.utc).isoformat()
-    })
+        "created_at": current_time,
+        "updated_at": current_time
+    }
     
     # Insert into database
-    result = await db.applications.insert_one(app_dict)
+    await db.applications.insert_one(app_dict.copy())
     
     # Create notification
     notif_id = str(uuid.uuid4())
@@ -291,13 +300,26 @@ async def create_application(app_data: ApplicationCreate, user: dict = Depends(g
         "type": "success",
         "read": False,
         "link": f"/applications/{app_id}",
-        "created_at": datetime.now(timezone.utc).isoformat()
+        "created_at": current_time
     }
     await db.notifications.insert_one(notif)
     
-    # Return the application without MongoDB _id
-    response_dict = app_dict.copy()
-    return response_dict
+    # Return clean dict without _id
+    return {
+        "id": app_id,
+        "user_id": user['id'],
+        "mfi_id": app_data.mfi_id,
+        "business_name": app_data.business_name,
+        "business_type": app_data.business_type,
+        "business_age_years": app_data.business_age_years,
+        "monthly_revenue": app_data.monthly_revenue,
+        "loan_amount": app_data.loan_amount,
+        "loan_purpose": app_data.loan_purpose,
+        "tenure_months": app_data.tenure_months,
+        "status": "submitted",
+        "created_at": current_time,
+        "updated_at": current_time
+    }
 
 @api_router.patch("/applications/{app_id}")
 async def update_application(app_id: str, update_data: ApplicationUpdate, user: dict = Depends(get_auth_user)):
